@@ -21,4 +21,5 @@ def QA5Especegros():
     df=pd.read_csv("vdq-arbrerepertorie.csv")
     grostronc=df.sort_values(by='DIAMETRE', ascending=False)
     return (grostronc.iloc[0]['NOM_LATIN'])
-print(QA5Especegros())
+def QA6Diammoy():
+    df=pd.read_csv("vdq-arbrerepertorie.csv")
