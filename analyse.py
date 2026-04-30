@@ -1,3 +1,4 @@
+from tokenize import group
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -75,3 +76,11 @@ def Fig2():
     plt.grid(axis="y",linestyle="--")
     plt.title("Nombre d'arbres répértoriés à \n Parc Jean-Marc-Gauthier")
     plt.savefig("figure2.png")
+def Fig3():
+    df=pd.read_csv("vdq-arbrerepertorie.csv")
+    df=df.dropna(subset=["NOM_FRANCAIS", "NOM_TOPOGRAPHIE","LONGITUDE","LATITUDE"])
+    parc=df[df['NOM_TOPOGRAPHIE'].str.contains('Parc Jean-Marc-Gauthier')]
+    especes=parc["NOM_FRANCAIS"]
+    print(parc.groupby("NOM_FRANCAIS"))
+
+Fig3()
