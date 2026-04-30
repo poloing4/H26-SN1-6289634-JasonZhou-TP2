@@ -33,11 +33,22 @@ def QA6():
 def QASommaire():
         with open("sommaire.txt", "w", encoding="utf-8") as f:
             Q1=', '.join(QA1())
-            f.write(f"#1 - Quelles sont les variables présentes dans le jeu de données? Reponse:{Q1} \n")
+            f.write(f"#1 - Quelles sont les variables présentes dans le jeu de données?\n")
+            f.write(f"Réponse: {Q1}\n")
             Q2=''.join(QA2())
-            f.write(f"#2 - Le nom de la topographie où se trouve l'arbre avec le tronc le plus grand? Reponse:{Q2} \n")
-            Q3V=QA3().values()
-            Q3VX=''.join(Q3V)
-            Q3K=''.join(QA3().keys())
-            f.write(f"#3 - Combien dénombre-t-on d'espèces différentes chez les feuillus et les conifères? Reponse:{Q3VX} \n")
+            f.write(f"#2 - Le nom de la topographie où se trouve l'arbre avec le tronc le plus grand?\n")
+            f.write(f"Réponse: {Q2}\n")
+            f.write(f"#3 - Combien dénombre-t-on d'espèces différentes chez les feuillus et les conifères?\n")
+            f.write(f"Réponse: {QA3()[0]} Feuillus et {QA3()[1]} Conifère\n")
+            Q4=', '.join(QA4())
+            f.write(f"#4 - Quelles sont les espèces d'arbres (en français) que l'on retrouve dans le Parc Aimée-Miville?Alphabétiquement?\n")
+            f.write(f"Réponse: {Q4} \n")
+            Q5=''.join(QA5())
+            f.write(f"#5 - De quelle espèce est l'arbre avec le tronc le plus gros? (en français)\n")
+            f.write(f"Réponse: {Q5}\n")
+
+            f.write(f"#6 - Quel est le diamètre moyen du tronc des feuillus dans à l'Université Laval? Des conifères?\n")
+
+            f.write(f"Réponse: Le diamètre moyen du tronc des feuillus à l'Université Laval? est de {QA6()['diametre_feuillus']} et celui des conifères est de {QA6()['diametre_coniferes']}\n ")
+
 QASommaire()
