@@ -23,3 +23,13 @@ def QA5Especegros():
     return (grostronc.iloc[0]['NOM_LATIN'])
 def QA6Diammoy():
     df=pd.read_csv("vdq-arbrerepertorie.csv")
+    df = df.dropna(subset=["NOM_TOPOGRAPHIE","TYPE_ARBRE","DIAMETRE"])
+    unifeuillu=df[(df["NOM_TOPOGRAPHIE"].str.contains("Université Laval"))&(df["TYPE_ARBRE"]=="Feuillu")]
+    uniconfiere=df[(df["NOM_TOPOGRAPHIE"].str.contains("Université Laval"))&(df["TYPE_ARBRE"]=="Conifère")]
+    uni={}
+    uni['diametre_feuillus']=unifeuillu['DIAMETRE'].mean()
+    uni['diametre_coniferes']=uniconfiere['DIAMETRE'].mean()
+    return uni
+def QASommaire():
+
+QASommaire()
