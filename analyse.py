@@ -25,7 +25,7 @@ def QA5():
     return (grostronc.iloc[0]['NOM_LATIN'])
 def QA6():
     df=pd.read_csv("vdq-arbrerepertorie.csv")
-    df = df.dropna(subset=["NOM_TOPOGRAPHIE","TYPE_ARBRE","DIAMETRE"])
+    df=df.dropna(subset=["NOM_TOPOGRAPHIE","TYPE_ARBRE","DIAMETRE"])
     unifeuillu=df[(df["NOM_TOPOGRAPHIE"].str.contains("Université Laval"))&(df["TYPE_ARBRE"]=="Feuillu")]
     uniconfiere=df[(df["NOM_TOPOGRAPHIE"].str.contains("Université Laval"))&(df["TYPE_ARBRE"]=="Conifère")]
     uni={}
@@ -54,7 +54,7 @@ def QASommaire():
             f.write(f"Réponse: Le diamètre moyen du tronc des feuillus à l'Université Laval? est de {QA6()['diametre_feuillus']} et celui des conifères est de {QA6()['diametre_coniferes']}\n ")
 def Fig1():
     df=pd.read_csv("vdq-arbrerepertorie.csv")
-    df.dropna(subset=["TYPE_ARBRE","LATITUDE","LONGITUDE",])
+    df.dropna(subset=["TYPE_ARBRE","LATITUDE","LONGITUDE"])
     feuillu=df[df['TYPE_ARBRE']=='Feuillu']
     conifère=df[df['TYPE_ARBRE']=='Conifère']
     plt.scatter(x=feuillu["LONGITUDE"],y=feuillu["LATITUDE"],s=0.01)
@@ -63,6 +63,15 @@ def Fig1():
     plt.xlabel("Longitude")
     plt.ylabel("Latitude")
     plt.legend(title="Type d'arbre",labels=['feuillu','conifère'],markerscale=50)
-    plt.savefig("vdq-arbrerepertorie.png")
+    plt.savefig("figure1.png")
 def Fig2():
     df=pd.read_csv("vdq-arbrerepertorie.csv")
+    df = df.dropna(subset=["NOM_FRANCAIS", "NOM_TOPOGRAPHIE"])
+    parc=df[df['NOM_TOPOGRAPHIE'].str.contains('Parc Jean-Marc-Gauthier')]
+    nombre=parc.groupby("NOM_FRANCAIS")["NOM_FRANCAIS"].count()
+    nombre.plot(kind="bar")
+    plt.xticks(rotation=45,ha="right")
+    plt.ylabel("Nombre d'arbres répertoriés")
+    plt.grid(axis="y",linestyle="--")
+    plt.title("Nombre d'arbres répértoriés à \n Parc Jean-Marc-Gauthier")
+    plt.savefig("figure2.png")
