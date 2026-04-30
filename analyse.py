@@ -1,3 +1,5 @@
+
+import matplotlib.pyplot as plt
 import pandas as pd
 def QA1():
     df=pd.read_csv("vdq-arbrerepertorie.csv")
@@ -31,7 +33,7 @@ def QA6():
     uni['diametre_coniferes']=uniconfiere['DIAMETRE'].mean()
     return uni
 def QASommaire():
-        with open("sommaire.txt", "w", encoding="utf-8") as f:
+    with open("sommaire.txt", "w", encoding="utf-8") as f:
             Q1=', '.join(QA1())
             f.write(f"#1 - Quelles sont les variables présentes dans le jeu de données?\n")
             f.write(f"Réponse: {Q1}\n")
@@ -50,5 +52,17 @@ def QASommaire():
             f.write(f"#6 - Quel est le diamètre moyen du tronc des feuillus dans à l'Université Laval? Des conifères?\n")
 
             f.write(f"Réponse: Le diamètre moyen du tronc des feuillus à l'Université Laval? est de {QA6()['diametre_feuillus']} et celui des conifères est de {QA6()['diametre_coniferes']}\n ")
-
-QASommaire()
+def Fig1():
+    df=pd.read_csv("vdq-arbrerepertorie.csv")
+    df.dropna(subset=["TYPE_ARBRE","LATITUDE","LONGITUDE",])
+    feuillu=df[df['TYPE_ARBRE']=='Feuillu']
+    conifère=df[df['TYPE_ARBRE']=='Conifère']
+    plt.scatter(x=feuillu["LONGITUDE"],y=feuillu["LATITUDE"],s=0.01)
+    plt.scatter(x=conifère["LONGITUDE"], y=conifère["LATITUDE"],s=0.01)
+    plt.title("Localisation et type des arbres répertoriés à la Ville de Québec")
+    plt.xlabel("Longitude")
+    plt.ylabel("Latitude")
+    plt.legend(title="Type d'arbre",labels=['feuillu','conifère'],markerscale=50)
+    plt.savefig("vdq-arbrerepertorie.png")
+def Fig2():
+    df=pd.read_csv("vdq-arbrerepertorie.csv")
