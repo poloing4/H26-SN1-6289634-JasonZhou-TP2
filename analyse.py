@@ -91,5 +91,6 @@ def Fig4():
     df=pd.read_csv("vdq-arbrerepertorie.csv")
     df=df.dropna(subset=["NOM_TOPOGRAPHIE","NOM_FRANCAIS","DIAMETRE"])
     chene=df[(df['NOM_TOPOGRAPHIE'].str.contains('Parc')) & (df["NOM_FRANCAIS"]=="chêne rouge")]
-    print(chene.groupby("NOM_TOPOGRAPHIE")["DIAMETRE"].count().sort_values(ascending=False).head(10))
+    top10=(chene.groupby("NOM_TOPOGRAPHIE")["DIAMETRE"].count().sort_values(ascending=False).head(10))
+    top10.boxplot(by="NOM_TOPOGRAPHIE",column="DIAMETRE")
 Fig4()
