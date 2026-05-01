@@ -83,6 +83,13 @@ def Fig3():
     parc=df[df['NOM_TOPOGRAPHIE'].str.contains('Parc Jean-Marc-Gauthier')]
     for index,row in parc.groupby("NOM_FRANCAIS"):
         plt.scatter(x=row['LONGITUDE'],y=row['LATITUDE'],s=15)
-    plt.legend(title="Type d'arbre",labels=parc["NOM_FRANCAIS"].drop_duplicates(),markerscale=0.6,loc="lower left")
-    plt.show()
-Fig3()
+    plt.legend(title="Type d'arbre",labels=parc["NOM_FRANCAIS"].drop_duplicates(),markerscale=0.6,loc="lower left",fontsize=6)
+    plt.grid(linestyle="--")
+    plt.title("Localisation des espèces d'arbres dans le \n Parc Jean-Marc-Gauthier")
+    plt.savefig("figure3.png")
+def Fig4():
+    df=pd.read_csv("vdq-arbrerepertorie.csv")
+    df=df.dropna(subset=["NOM_TOPOGRAPHIE","NOM_FRANCAIS","DIAMETRE"])
+    chene=df[(df['NOM_TOPOGRAPHIE'].str.contains('Parc')) & (df["NOM_FRANCAIS"]=="chêne rouge")]
+    print(chene.groupby("NOM_TOPOGRAPHIE")["DIAMETRE"].count().sort_values(ascending=False).head(10))
+Fig4()
