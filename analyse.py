@@ -1,3 +1,4 @@
+from email.encoders import encode_noop
 from tokenize import group
 
 import matplotlib.pyplot as plt
@@ -59,7 +60,7 @@ def Fig1():
     feuillu=df[df['TYPE_ARBRE']=='Feuillu']
     conifère=df[df['TYPE_ARBRE']=='Conifère']
     plt.scatter(x=feuillu["LONGITUDE"],y=feuillu["LATITUDE"],s=0.01)
-    plt.scatter(x=conifère["LONGITUDE"], y=conifère["LATITUDE"],s=0.01)
+    plt.scatter(x=conifère["LONGITUDE"],y=conifère["LATITUDE"],s=0.01)
     plt.title("Localisation et type des arbres répertoriés à la Ville de Québec")
     plt.xlabel("Longitude")
     plt.ylabel("Latitude")
@@ -80,7 +81,8 @@ def Fig3():
     df=pd.read_csv("vdq-arbrerepertorie.csv")
     df=df.dropna(subset=["NOM_FRANCAIS", "NOM_TOPOGRAPHIE","LONGITUDE","LATITUDE"])
     parc=df[df['NOM_TOPOGRAPHIE'].str.contains('Parc Jean-Marc-Gauthier')]
-    especes=parc["NOM_FRANCAIS"]
-    print(parc.groupby("NOM_FRANCAIS"))
-
+    for index,row in parc.groupby("NOM_FRANCAIS"):
+        plt.scatter(x=row['LONGITUDE'],y=row['LATITUDE'],s=15)
+    plt.legend(title="Type d'arbre",labels=parc["NOM_FRANCAIS"].drop_duplicates(),markerscale=0.6,loc="lower left")
+    plt.show()
 Fig3()
