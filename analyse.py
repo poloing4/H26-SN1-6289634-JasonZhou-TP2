@@ -1,5 +1,3 @@
-from email.encoders import encode_noop
-from tokenize import group
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -59,6 +57,7 @@ def Fig1():
     df.dropna(subset=["TYPE_ARBRE","LATITUDE","LONGITUDE"])
     feuillu=df[df['TYPE_ARBRE']=='Feuillu']
     conifère=df[df['TYPE_ARBRE']=='Conifère']
+    plt.figure()
     plt.scatter(x=feuillu["LONGITUDE"],y=feuillu["LATITUDE"],s=0.01)
     plt.scatter(x=conifère["LONGITUDE"],y=conifère["LATITUDE"],s=0.01)
     plt.title("Localisation et type des arbres répertoriés à la Ville de Québec")
@@ -71,6 +70,7 @@ def Fig2():
     df = df.dropna(subset=["NOM_FRANCAIS", "NOM_TOPOGRAPHIE"])
     parc=df[df['NOM_TOPOGRAPHIE'].str.contains('Parc Jean-Marc-Gauthier')]
     nombre=parc.groupby("NOM_FRANCAIS")["NOM_FRANCAIS"].count()
+    plt.figure()
     nombre.plot(kind="bar")
     plt.xticks(rotation=45,ha="right")
     plt.ylabel("Nombre d'arbres répertoriés")
@@ -81,6 +81,7 @@ def Fig3():
     df=pd.read_csv("vdq-arbrerepertorie.csv")
     df=df.dropna(subset=["NOM_FRANCAIS", "NOM_TOPOGRAPHIE","LONGITUDE","LATITUDE"])
     parc=df[df['NOM_TOPOGRAPHIE'].str.contains('Parc Jean-Marc-Gauthier')]
+    plt.figure()
     for index,row in parc.groupby("NOM_FRANCAIS"):
         plt.scatter(x=row['LONGITUDE'],y=row['LATITUDE'],s=15)
     plt.legend(title="Type d'arbre",labels=parc["NOM_FRANCAIS"].drop_duplicates(),markerscale=0.6,loc="lower left",fontsize=6)
@@ -92,5 +93,16 @@ def Fig4():
     df=df.dropna(subset=["NOM_TOPOGRAPHIE","NOM_FRANCAIS","DIAMETRE"])
     chene=df[(df['NOM_TOPOGRAPHIE'].str.contains('Parc')) & (df["NOM_FRANCAIS"]=="chêne rouge")]
     top10=(chene.groupby("NOM_TOPOGRAPHIE")["DIAMETRE"].count().sort_values(ascending=False).head(10))
-    top10.boxplot(by="NOM_TOPOGRAPHIE",column="DIAMETRE")
+    top10=top10.index.tolist()
+    parc=chene[chene["NOM_TOPOGRAPHIE"].isin(top10)]
+    plt.figure()
+    parc.boxplot(by="NOM_TOPOGRAPHIE",column="DIAMETRE")
+    plt.xticks(rotation=45,ha="right")
+    plt.title("Taille des diamètres de l'espèce ""chêne rouge""\n dans les 10 parcs en possédant le plus  ")
+    plt.suptitle("")
+    plt.grid(linestyle="--")
+    plt.savefig("figure4.png")
 Fig4()
+Fig1()
+Fig2()
+Fig3()
